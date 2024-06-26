@@ -33,3 +33,4 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ksaipavan13/strapi-app:latest, ${{ secrets.DOCKER_USERNAME }}/strapi-app:latest
+

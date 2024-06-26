@@ -3,12 +3,14 @@ FROM --platform=linux/amd64 node:18-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json ./
+# Copy the package.json and package-lock.json from the strapi-code directory
+COPY strapi-code/package.json strapi-code/package-lock.json ./
 
 # Install dependencies
 RUN npm install
 
-COPY . .
+# Copy the rest of the application code
+COPY strapi-code/ .
 
 # Build the application (if necessary)
 # RUN npm run build
