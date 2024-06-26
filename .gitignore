@@ -1,3 +1,5 @@
 .terraform/
 terraform.tfstate*
+get-pip.py
+my-python-env/
 
