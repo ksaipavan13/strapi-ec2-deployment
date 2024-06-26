@@ -1,24 +1,27 @@
-# Use an official Node.js runtime as a parent image
-FROM node:16
+# Use a separate builder image to install dependencies
+FROM --platform=linux/amd64 node:18-alpine AS builder
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+COPY package.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
 COPY . .
 
-# Build the application (if needed)
-RUN npm run build
+# Build the application (if necessary)
+# RUN npm run build
 
-# Expose the application port
+# Create a minimal production image
+FROM --platform=linux/amd64 node:18-alpine
+
+WORKDIR /srv/app
+
+# Copy the node_modules and built files from the builder image
+COPY --from=builder /app /srv/app
+
 EXPOSE 1337
 
-# Start the application
 CMD ["npm", "start"]
 
