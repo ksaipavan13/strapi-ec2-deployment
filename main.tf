@@ -2,7 +2,13 @@ provider "aws" {
   region = "ap-south-1"
 }
 
+data "aws_key_pair" "existing" {
+  key_name = "deployer-key"
+}
+
 resource "aws_key_pair" "deployer" {
+  count = length(data.aws_key_pair.existing.id) == 0 ? 1 : 0
+
   key_name   = "deployer-key"
   public_key = var.deployer_public_key
 }
@@ -26,7 +32,7 @@ data "aws_ami" "ubuntu" {
 resource "aws_instance" "strapi" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
-  key_name      = aws_key_pair.deployer.key_name
+  key_name      = "deployer-key"
 
   user_data = <<-EOF
               #!/bin/bash
