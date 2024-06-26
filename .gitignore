@@ -1,5 +1,7 @@
-.terraform/
-terraform.tfstate*
-get-pip.py
-my-python-env/
+# Content from the remote repository
+.DS_Store
+.AppleDouble
+
+# Content from your local repository
+terraform-strapi
 
